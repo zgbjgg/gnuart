@@ -1,4 +1,5 @@
 gnuart - the UART erlang application
+======
 
 Compile the application and build the shared object
 
@@ -34,5 +35,6 @@ However you can unsubscribe a process
 	{ok,unsubscribe}
 	
 	
-License 
+License
+===
 See LICENSE.txt for more information
