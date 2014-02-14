@@ -54,6 +54,9 @@ static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT buff
        
     		// Read 
     		unsigned char * rx_buffer = read_uart_fd(5);
+
+		// Close the fd
+		close_uart_fd();
     		driver_output(to_erl_port->port, rx_buffer, strlen(rx_buffer));
 	}
 }
