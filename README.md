@@ -5,6 +5,12 @@ Compile the application and build the shared object
 
 	$ make all
 
+Before start application, you must configure priv/gnuart.uart file. This file is the configuration where 
+the devname must be set. The order of the specs is:
+
+	devname minimun_time maximum_time timeout
+
+The specs can be changed at the runtime and could be reloaded when write data to devname.
 
 Start the application with the code loaded 
 
