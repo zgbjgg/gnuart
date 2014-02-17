@@ -26,13 +26,13 @@ From a valid process, subscribe it to gnuart
 	
 Send bytes
 
-	3> gnuart:flush("0s").
+	3> gnuart:flush("AA0065").
 	{ok,flush}
 	
 The response is delivered to the calling process (subscribed)
 
 	4> flush().
-	Shell got {got,#Ref<0.0.0.39>,"BAD_FILE_DESCRIPTOR"}
+	Shell got {got,#Ref<0.0.0.39>,<<"FF0000">>}
 	ok
 	
 However you can unsubscribe a process
