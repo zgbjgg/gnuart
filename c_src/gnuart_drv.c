@@ -39,8 +39,9 @@ static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT buff
     	stct_port* to_erl_port = (stct_port*)handle;
     	unsigned char * tx_buffer = buff;
 
-    	// Open devname & configure
-    	open_uart_fd("/dev/ttySAC3");
+    	// Load config, open devname & configure
+	load_config();
+    	open_uart_fd();
         configure_uart_fd();
          
         // Write
@@ -56,7 +57,7 @@ static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT buff
     		unsigned char * rx_buffer = read_uart_fd(5);
 
 		// Close the fd
-		close_uart_fd();
+		// close_uart_fd();
     		driver_output(to_erl_port->port, rx_buffer, strlen(rx_buffer));
 	}
 }

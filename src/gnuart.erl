@@ -157,7 +157,7 @@ handle_info({'EXIT', _Port, _Reason}, _State) 				      ->
     exit(port_terminated),
     {noreply, #state{driver=nil, subscription=[]}};
 handle_info({Port, {data, Bytes}}, State=#state{driver=Port, subscription=S}) ->
-    [ Pid ! {got, Ref, Bytes} || {Ref, Pid}<- S ],
+    [ Pid ! {got, Ref, list_to_binary(Bytes)} || {Ref, Pid}<- S ],
     {noreply, State};
 handle_info({_Port, closed}, _State) 					      ->
     {noreply, #state{driver=nil, subscription=[]}}.

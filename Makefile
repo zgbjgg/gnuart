@@ -36,4 +36,5 @@ compile: c_src
 	erlc -o ebin/ -I include/ src/*.erl
 
 clean:
+	@rm -rf priv/$(SHARED_OBJ)
 	@rm -rf ebin/*.beam

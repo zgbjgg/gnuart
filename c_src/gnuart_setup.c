@@ -14,12 +14,15 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <termios.h>
 #include "gnuart.h"
+#include <string.h>
 #include <syslog.h>
 
-int open_uart_fd(char * devname)
+
+int open_uart_fd()
 {
 	// Initialize the UART file descriptor
 	uart_fd = -1;
@@ -75,8 +78,8 @@ void configure_uart_fd()
   		settings.c_oflag &= ~OPOST;
 
 		// Set timeout for non-blocking 
-		settings.c_cc[VMIN] = 0;
-		settings.c_cc[VTIME] = 5;
+		settings.c_cc[VMIN] = vmin;
+		settings.c_cc[VTIME] = vtimeout;
 
   		tcsetattr(uart_fd, TCSANOW, &settings);
 
@@ -85,6 +88,33 @@ void configure_uart_fd()
 		write_to_log("configure NOK");
 	}
 }
+
+
+void load_config()
+{
+	FILE *fr;
+   	char line[140];
+	char cwd[256];	
+	char config_file_path[256];
+
+   	getcwd(cwd, sizeof(cwd));
+
+   	strcpy(config_file_path, cwd);
+   	strcat(config_file_path, CONFIG_FILE);
+
+   	fr = fopen (config_file_path, MODE_FILE);
+
+   	while(fgets(line, 140, fr) != NULL)
+   	{
+        	sscanf( line, "%s %d %d %d", devname, &vmin, &vmax, &vtimeout );
+   	}
+
+	write_to_log("load config file OK");
+	write_to_log(devname);
+	
+   	fclose(fr); 
+}
+
 
 void write_to_log(char * function) {
 	setlogmask(LOG_UPTO (LOG_NOTICE));
