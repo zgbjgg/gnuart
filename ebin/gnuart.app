@@ -1,6 +1,6 @@
 {application, gnuart,
  [
-  {description, "UART erlang"},
+  {description, "the uart erlang application"},
   {vsn, "0.2"},
   {registered, []},
   {applications, [

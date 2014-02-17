@@ -1,7 +1,7 @@
 /*
  *
  * Copyright (C) 2014 
- * Authors: Patricia Nuñez cpattynue@gmail.com>
+ * Authors: Patricia Nuñez <cpattynue@gmail.com>
  *          Jorge Garrido <zgbjgg@gmail.com>
  * All rights reserved.
  *
@@ -19,6 +19,9 @@
 #include <gnuart.h>
 #include <syslog.h>
 
+/*
+** TODO: gnuart.h
+*/
 int write_uart_fd(unsigned char * tx_buffer, size_t size_tx_buffer) 
 {
 
@@ -37,6 +40,9 @@ int write_uart_fd(unsigned char * tx_buffer, size_t size_tx_buffer)
 	}
 }
 
+/*
+** TODO: gnuart.h
+*/
 unsigned char * read_uart_fd(int timeout)
 {
 	if (uart_fd > -1)

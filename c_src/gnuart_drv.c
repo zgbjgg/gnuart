@@ -21,7 +21,9 @@
 #include "erl_driver.h"
 #include <syslog.h>
 
-
+/*
+** TODO: erl_driver.h
+*/
 static ErlDrvData gnuart_driver_start(ErlDrvPort port, char *buff)
 {
 	stct_port* to_erl_port = (stct_port*)driver_alloc(sizeof(port));
@@ -29,11 +31,17 @@ static ErlDrvData gnuart_driver_start(ErlDrvPort port, char *buff)
     	return (ErlDrvData)to_erl_port;
 }
 
+/*
+** TODO: erl_driver.h
+*/
 static void gnuart_driver_stop(ErlDrvData handle)
 {
     	driver_free((char*)handle);
 }
 
+/*
+** TODO: erl_driver.h
+*/
 static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT bufflen)
 {
     	stct_port* to_erl_port = (stct_port*)handle;
@@ -62,6 +70,9 @@ static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT buff
 	}
 }
 
+/*
+** TODO: erl_driver.h
+*/
 ErlDrvEntry gnuart_driver_entry = {
         NULL,                           /* F_PTR init, N/A */
         gnuart_driver_start,            /* L_PTR start, called when port is opened */
@@ -97,7 +108,9 @@ ErlDrvEntry gnuart_driver_entry = {
                                            event object */
 };
 
-
+/*
+** TODO: erl_driver.h
+*/
 DRIVER_INIT(gnuart) /* must match name in driver_entry */
 {
     return &gnuart_driver_entry;

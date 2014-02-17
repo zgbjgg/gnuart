@@ -1,7 +1,7 @@
 /*
  *
  * Copyright (C) 2014 
- * Authors: Patricia Nuñez cpattynue@gmail.com<>
+ * Authors: Patricia Nuñez <cpattynue@gmail.com<>
  *          Jorge Garrido <zgbjgg@gmail.com>
  * All rights reserved.
  *
@@ -21,7 +21,9 @@
 #include <string.h>
 #include <syslog.h>
 
-
+/*
+** TODO: gnuart.h
+*/
 int open_uart_fd()
 {
 	// Initialize the UART file descriptor
@@ -41,14 +43,18 @@ int open_uart_fd()
 	}
 }    
 
-
+/*
+** TODO: gnuart.h
+*/
 void close_uart_fd()
 {
 	write_to_log("close OK");
 	close(uart_fd);
 }
 
-
+/*
+** TODO: gnuart.h
+*/
 void configure_uart_fd() 
 {
 
@@ -89,7 +95,9 @@ void configure_uart_fd()
 	}
 }
 
-
+/*
+** TODO: gnuart.h
+*/
 void load_config()
 {
 	FILE *fr;
@@ -115,7 +123,9 @@ void load_config()
    	fclose(fr); 
 }
 
-
+/*
+** TODO: gnuart.h
+*/
 void write_to_log(char * function) {
 	setlogmask(LOG_UPTO (LOG_NOTICE));
   	openlog(SYS_LOG, LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);

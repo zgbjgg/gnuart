@@ -1,6 +1,6 @@
 %%
 %% Copyright (C) 2014 
-%% Authors: Patricia Nuñez cpattynue@gmail.com<>
+%% Authors: Patricia Nuñez <cpattynue@gmail.com<>
 %%          Jorge Garrido <zgbjgg@gmail.com>
 %% All rights reserved.
 %%
