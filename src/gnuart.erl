@@ -15,7 +15,8 @@
 -behaviour(gen_server).
 
 %% API
--export([start_link/0, flush/1, subscribe/0, unsubscribe/1]).
+-export([start_link/0, open/0, close/0, flush/1, 
+	 subscribe/0, unsubscribe/1]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
@@ -30,6 +31,24 @@
 %%%===================================================================
 %%% API
 %%%===================================================================
+
+%%--------------------------------------------------------------------
+%% @doc Open the device 
+%%
+%% @spec open() -> ok
+%%--------------------------------------------------------------------
+-spec open() -> ok.
+open() ->
+    gen_server:call(?MODULE, open).
+
+%%--------------------------------------------------------------------
+%% @doc Close the device 
+%%
+%% @spec close() -> ok
+%%--------------------------------------------------------------------
+-spec close() -> ok.
+close() ->
+    gen_server:call(?MODULE, close).
 
 %%--------------------------------------------------------------------
 %% @doc Flush bytes to port driver, write and read data.
@@ -117,10 +136,16 @@ init([]) ->
 %%                                   {stop, Reason, State}
 %% @end
 %%--------------------------------------------------------------------
-handle_call(subscribe, {Pid, _}, #state{driver=Port, subscription=S})         ->
+handle_call(open, _From, State=#state{driver=Port})                  	       ->
+    Port ! {self(), {command, [7]}},
+    {reply, ok, State};    
+handle_call(close, _From, State=#state{driver=Port})                           ->
+    Port ! {self(), {command, [8]}},
+    {reply, ok, State};
+handle_call(subscribe, {Pid, _}, #state{driver=Port, subscription=S})          ->
     Reference = erlang:make_ref(),
     {reply, {ok, Reference}, #state{driver=Port, subscription=[ {Reference, Pid} | S]}};
-handle_call({unsubscribe, Ref}, _From, #state{driver=Port, subscription=S})     ->
+handle_call({unsubscribe, Ref}, _From, #state{driver=Port, subscription=S})    ->
     NewS = [ Scr || {Reference, _}=Scr <- S, Ref =/= Reference],
     {reply, {ok, unsubscribe},  #state{driver=Port, subscription=NewS}};    
 handle_call({flush, Bytes}, _From, State=#state{driver=Port, subscription=_S}) ->

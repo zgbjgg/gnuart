@@ -45,29 +45,42 @@ static void gnuart_driver_stop(ErlDrvData handle)
 static void gnuart_driver_output(ErlDrvData handle, char *buff, ErlDrvSizeT bufflen)
 {
     	stct_port* to_erl_port = (stct_port*)handle;
-    	unsigned char * tx_buffer = buff;
+    	unsigned char * input = buff;
+	char device_opt = buff[0]; 
+	unsigned char * output;
 
-    	// Load config, open devname & configure
+	write_to_log(input);
+
+    	// Load proper configuration
 	load_config();
-    	open_uart_fd();
-        configure_uart_fd();
-         
-        // Write
-       	int wuart_fd = write_uart_fd(tx_buffer, strlen(tx_buffer));
-	
-	if (uart_fd == -1)
-  	{
-		unsigned char * rx_buffer = "BAD_FILE_DESCRIPTOR";
-        	driver_output(to_erl_port->port, rx_buffer, strlen(rx_buffer));
-	} else {
-       
-    		// Read 
-    		unsigned char * rx_buffer = read_uart_fd(5);
 
-		// Close the fd
-		// close_uart_fd();
-    		driver_output(to_erl_port->port, rx_buffer, strlen(rx_buffer));
+	// Open device, close device or send command & receive response
+	if ( device_opt == OPEN_DEVICE )
+	{
+		output = open_uart_fd();
+		configure_uart_fd();
+	} 
+	else if ( device_opt == CLOSE_DEVICE )
+	{ 
+		output = close_uart_fd();
+	} else {
+		
+		// Maybe write a command and get response
+		// Write mode
+		int wuart_fd = write_uart_fd(input, strlen(input));		
+
+		if (uart_fd == -1)
+  		{
+			// Back error
+			output = "ERROR_DEVICE";
+		} else {
+       
+			// Read 
+    			output = read_uart_fd(vtimeout);
+		}
 	}
+    	
+	driver_output(to_erl_port->port, output, strlen(output));
 }
 
 /*

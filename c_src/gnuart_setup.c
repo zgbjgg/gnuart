@@ -24,7 +24,7 @@
 /*
 ** TODO: gnuart.h
 */
-int open_uart_fd()
+unsigned char * open_uart_fd()
 {
 	// Initialize the UART file descriptor
 	uart_fd = -1;
@@ -36,20 +36,21 @@ int open_uart_fd()
     	if (uart_fd == -1)
         {
 		write_to_log("open NOK");
-		return -1;
+		return "could_not_open_device";
 	} else {
 		write_to_log("open OK");
-		return uart_fd;
+		return "device_open";
 	}
 }    
 
 /*
 ** TODO: gnuart.h
 */
-void close_uart_fd()
+unsigned char * close_uart_fd()
 {
 	write_to_log("close OK");
 	close(uart_fd);
+	return "device_close";
 }
 
 /*

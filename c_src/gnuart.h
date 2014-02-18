@@ -63,6 +63,13 @@ char devname[12];
 #define MODE_FILE "rt"
 
 /*
+** Open device tag and close device tag
+*/
+#define OPEN_DEVICE 7
+
+#define CLOSE_DEVICE 8
+
+/*
 ** Location of system log messages, default set to 
 ** '/var/log/messages'
 */
@@ -74,9 +81,9 @@ char devname[12];
 ** 
 ** \param none
 ** 
-** \return the uart file descriptor for the device
+** \return the uart file descriptor for the device status
 */
-int open_uart_fd();
+unsigned char * open_uart_fd();
 
 /*
 ** \brief Write messages to system logs, for more info.
@@ -104,9 +111,9 @@ void configure_uart_fd();
 ** \param Close the file descriptor on devname specified on configuration
 **	  file. The fd must be a suitable file descriptor.
 **
-** \return void
+** \return the status for the closed fd
 */
-void close_uart_fd();
+unsigned char * close_uart_fd();
 
 
 /*
