@@ -24,20 +24,34 @@ From a valid process, subscribe it to gnuart
 	2> gnuart:subscribe().
 	{ok,#Ref<0.0.0.39>}
 	
+Open the device before send some command
+
+	3> gnuart:open().
+	ok
+	4> flush().
+	Shell got {got,#Ref<0.0.0.39>,<<"device_open">>}
+	ok
+
 Send bytes
 
-	3> gnuart:flush("AA0065").
+	5> gnuart:flush("AA0065").
 	{ok,flush}
 	
 The response is delivered to the calling process (subscribed)
 
-	4> flush().
+	6> flush().
 	Shell got {got,#Ref<0.0.0.39>,<<"FF0000">>}
+	ok
+	
+The device can be closed using
+
+	7> gnuart:close().
+	Shell got {got,#Ref<0.0.0.37>,<<"device_close">>}
 	ok
 	
 However you can unsubscribe a process
 
-	5> gnuart:unsubscribe(Ref).
+	8> gnuart:unsubscribe(Ref).
 	{ok,unsubscribe}
 	
 	
